@@ -128,7 +128,7 @@ class ChatterPostController extends Controller
         }
 
         $post = Post::find($id);
-        if(!Auth::guest() && (Auth::user()->id == $post->user_id)){
+        if(!Auth::guest() && (Auth::user()->can('edit-post', $post))){
             $post->body = $request->body;
             $post->save();
 
@@ -165,7 +165,7 @@ class ChatterPostController extends Controller
     public function destroy($id)
     {
         $post = Post::find($id);
-        if(!Auth::guest() && (Auth::user()->id == $post->user_id)){
+        if(!Auth::guest() && (Auth::user()->can('delete-post', $post))){
             $post->delete();
 
             $count_post = Post::where('chatter_discussion_id',$post->chatter_discussion_id)->count();
