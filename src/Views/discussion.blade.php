@@ -51,19 +51,23 @@
 	                	@foreach($posts as $post)
 	                		<li data-id="{{ $post->id }}">
 		                		<span class="chatter_posts">
-		                			@if(!Auth::guest() && (Auth::user()->id == $post->user->id))
+		                			@if(\Illuminate\Support\Facades\Auth::user()->can('delete-post', $post) || \Illuminate\Support\Facades\Auth::user()->can('edit-post', $post))
 		                				<div id="delete_warning_{{ $post->id }}" class="chatter_warning_delete">
 		                					<i class="chatter-warning"></i>Are you sure you want to delete this response?
 		                					<button class="btn btn-sm btn-danger pull-right delete_response">Yes Delete It</button>
 		                					<button class="btn btn-sm btn-default pull-right">No Thanks</button>
 		                				</div>
 			                			<div class="chatter_post_actions">
+							                @can('delete-post', $post)
 			                				<p class="chatter_delete_btn">
 			                					<i class="chatter-delete"></i> Delete
 			                				</p>
+							                @endcan
+							                @can('edit-post', $post)
 			                				<p class="chatter_edit_btn">
 			                					<i class="chatter-edit"></i> Edit
 			                				</p>
+											@endcan
 			                			</div>
 			                		@endif
 			                		<div class="chatter_avatar">
