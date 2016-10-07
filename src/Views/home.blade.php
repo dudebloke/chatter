@@ -81,14 +81,14 @@
 
 						                    @else
 
-						                        <span class="chatter_avatar_circle" style="background-color:#<?= Chatter::stringToColorCode($discussion->user->email) ?>">
-						                            {{ strtoupper(substr($discussion->user->email, 0, 1)) }}
+						                        <span>
+						                            <img src="{{ url('/user/getthumb', $discussion->user->id) }}" class="img-responsive" style="width:40px;height:60px">
 						                        </span>
 
 						                    @endif
 						                </div>
 
-						                <div class="chatter_middle">
+						                <div class="chatter_middle" style="margin-left:60px">
 						                    <h3 class="chatter_middle_title">{{ $discussion->title }} <div class="chatter_cat" style="background-color:{{ $discussion->category->color }}">{{ $discussion->category->name }}</div></h3>
 						                    <span class="chatter_middle_details">Posted By: <span data-href="/user">{{ ucfirst($discussion->user->{Config::get('chatter.user.database_field_with_user_name')}) }}</span> {{ \Carbon\Carbon::createFromTimeStamp(strtotime($discussion->created_at))->diffForHumans() }}</span>
 						                    <p>{{ substr(strip_tags($discussion->post[0]->body), 0, 200) }}@if(strlen(strip_tags($discussion->post[0]->body)) > 200){{ '...' }}@endif</p>
@@ -131,7 +131,7 @@
 
 	            <div class="col-md-4">
 		            <!-- CATEGORY -->
-			            <select id="chatter_category_id" class="form-control" name="chatter_category_id">
+			            <select id="chatter_category_id" class="form-control" style="padding:0px 30px" name="chatter_category_id">
 			            	<option value="">Select a Category</option>
 				            @foreach($categories as $category)
 				            	@if(old('chatter_category_id') == $category->id)
